@@ -309,13 +309,13 @@
       <span data-lang="en">Mary Ma 馬韻瑜</span>
     </h1>
     <div class="subtitle">
-      <span data-lang="zh">CFSC 殘疾人士綜合服務 高級經理 · NGO 培訓及設計顧問</span>
-      <span data-lang="en">CFSC Senior Manager, Integrated Services for Persons with Disabilities · NGO Training & Design Consultant</span>
+      <span data-lang="zh" id="dyn-subtitle-zh">CFSC 殘疾人士綜合服務 高級經理 · NGO 培訓及設計顧問</span>
+      <span data-lang="en" id="dyn-subtitle-en">CFSC Senior Manager, Integrated Services for Persons with Disabilities · NGO Training & Design Consultant</span>
     </div>
-    <p data-lang="zh">
+    <p data-lang="zh" id="dyn-hero-zh">
       現職 CFSC 高級經理，超過十五年社福界管理經驗。曾獲香港電台、明報、經濟日報等媒體專訪。專為非牟利機構提供前線員工培訓及專業通訊刊物設計服務。
     </p>
-    <p data-lang="en">
+    <p data-lang="en" id="dyn-hero-en">
       Senior Manager at CFSC with 15+ years in social welfare management. Featured on RTHK, Ming Pao, and HKET. Providing professional frontline staff training and publication design services for NGOs.
     </p>
     <div class="hero-cta">
@@ -687,20 +687,24 @@
           <h3 data-lang="en">Get in Touch</h3>
           <p data-lang="zh">無論您是想了解培訓服務還是設計項目，歡迎隨時聯絡我。我會在一個工作天內回覆。</p>
           <p data-lang="en">Whether you're interested in training services or design projects, feel free to reach out. I'll respond within one business day.</p>
-          <div class="contact-item">
+          <div class="contact-item" id="contact-email-row">
             <div class="icon email-icon">✉️</div>
             <div>
               <div style="font-weight:500;">Email</div>
-              <span data-lang="zh" style="color:var(--text-light);">即將公佈</span>
-              <span data-lang="en" style="color:var(--text-light);">Coming soon</span>
+              <span id="dyn-email-display" style="color:var(--text-light);">
+                <span data-lang="zh">即將公佈</span>
+                <span data-lang="en">Coming soon</span>
+              </span>
             </div>
           </div>
-          <div class="contact-item">
+          <div class="contact-item" id="contact-wa-row">
             <div class="icon wa-icon">💬</div>
             <div>
               <div style="font-weight:500;">WhatsApp</div>
-              <span data-lang="zh" style="color:var(--text-light);">即將公佈</span>
-              <span data-lang="en" style="color:var(--text-light);">Coming soon</span>
+              <span id="dyn-wa-display" style="color:var(--text-light);">
+                <span data-lang="zh">即將公佈</span>
+                <span data-lang="en">Coming soon</span>
+              </span>
             </div>
           </div>
         </div>
@@ -769,13 +773,64 @@
         'Message:\n' + data.get('message')
       );
       var isEn = document.body.classList.contains('lang-en');
-      alert(isEn ? 'Contact details coming soon. Thank you for your interest!' : '聯絡資料即將公佈，感謝您的查詢！');
+      if (window._contactEmail) {
+        window.location.href = 'mailto:' + window._contactEmail + '?subject=' + subject + '&body=' + body;
+        alert(isEn ? 'Your email client will open. Thank you!' : '即將開啟電郵，感謝您的查詢！');
+      } else {
+        alert(isEn ? 'Contact details coming soon. Thank you for your interest!' : '聯絡資料即將公佈，感謝您的查詢！');
+      }
     }
     document.querySelectorAll('.nav-links a').forEach(function(link) {
       link.addEventListener('click', function() {
         document.querySelector('.nav-links').classList.remove('open');
       });
     });
+  </script>
+
+  <!-- Dynamic content from Firestore -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
+    import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js';
+    var app = initializeApp({
+      apiKey: "AIzaSyAftFNUbPnpCREuJtFfZNdSY4c_COWya4A",
+      authDomain: "ngo-training-hub.firebaseapp.com",
+      projectId: "ngo-training-hub"
+    });
+    var db = getFirestore(app);
+    try {
+      var snap = await getDoc(doc(db, 'site', 'content'));
+      if (snap.exists()) {
+        var d = snap.data();
+        // Update text fields
+        if (d['subtitle-zh']) document.getElementById('dyn-subtitle-zh').textContent = d['subtitle-zh'];
+        if (d['subtitle-en']) document.getElementById('dyn-subtitle-en').textContent = d['subtitle-en'];
+        if (d['hero-zh']) document.getElementById('dyn-hero-zh').textContent = d['hero-zh'];
+        if (d['hero-en']) document.getElementById('dyn-hero-en').textContent = d['hero-en'];
+        // Update email
+        if (d.email) {
+          document.getElementById('dyn-email-display').innerHTML =
+            '<a href="mailto:' + d.email + '">' + d.email + '</a>';
+        }
+        // Update WhatsApp
+        if (d.whatsapp) {
+          var num = d.whatsapp.replace(/\D/g, '');
+          document.getElementById('dyn-wa-display').innerHTML =
+            '<a href="https://wa.me/' + num + '" target="_blank">' + num + '</a>';
+          // Also update hero WhatsApp button
+          var waBtn = document.querySelector('.btn-whatsapp');
+          if (waBtn) { waBtn.href = 'https://wa.me/' + num; waBtn.target = '_blank'; }
+        }
+        // Update footer
+        var footerP = document.querySelector('footer p:last-child');
+        if (footerP && d.email) {
+          footerP.innerHTML = '<a href="mailto:' + d.email + '">' + d.email + '</a>';
+        }
+        // Update form mailto
+        if (d.email) {
+          window._contactEmail = d.email;
+        }
+      }
+    } catch(e) { /* Firestore not configured yet, use defaults */ }
   </script>
 
 </body>

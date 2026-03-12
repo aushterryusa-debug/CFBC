@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — NGO Training Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --primary: #2563eb; --primary-dark: #1d4ed8; --bg: #f8fafc; --white: #fff; --text: #1e293b; --border: #e2e8f0; --radius: 12px; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans TC', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .container { max-width: 800px; margin: 0 auto; padding: 24px; }
+    h1 { font-size: 1.5rem; margin-bottom: 8px; }
+    .subtitle { color: #64748b; margin-bottom: 24px; }
+    .login-box { text-align: center; padding: 80px 24px; }
+    .login-box h2 { margin-bottom: 16px; }
+    .btn { display: inline-block; padding: 12px 28px; border-radius: 10px; font-weight: 600; font-size: 0.95rem; text-decoration: none; cursor: pointer; border: none; font-family: inherit; transition: all 0.2s; }
+    .btn-primary { background: var(--primary); color: var(--white); }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-danger { background: #ef4444; color: var(--white); }
+    .btn-danger:hover { background: #dc2626; }
+    .btn-sm { padding: 8px 16px; font-size: 0.85rem; }
+    .card { background: var(--white); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--border); }
+    .card h3 { font-size: 1.1rem; margin-bottom: 16px; color: var(--primary); }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; }
+    .form-group input, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; font-family: inherit; background: var(--bg); }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-group .hint { font-size: 0.8rem; color: #94a3b8; margin-top: 4px; }
+    .toast { position: fixed; top: 20px; right: 20px; padding: 12px 24px; border-radius: 8px; color: var(--white); font-weight: 500; z-index: 1000; display: none; }
+    .toast.success { background: #22c55e; display: block; }
+    .toast.error { background: #ef4444; display: block; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .user-info { font-size: 0.85rem; color: #64748b; }
+    #admin-panel { display: none; }
+    #login-panel { display: block; }
+    .preview-link { font-size: 0.85rem; color: var(--primary); text-decoration: none; }
+    .preview-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div id="login-panel" class="login-box">
+    <h2>NGO Training Hub Admin</h2>
+    <p class="subtitle">請使用 Google 帳號登入以編輯網站內容</p>
+    <button class="btn btn-primary" onclick="signIn()">使用 Google 登入</button>
+    <p style="margin-top:16px;color:#94a3b8;font-size:0.85rem;">只有獲授權的帳號可以登入</p>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="admin-panel" class="container">
+    <div class="topbar">
+      <div>
+        <h1>網站內容管理</h1>
+        <a href="/" class="preview-link" target="_blank">查看網站 →</a>
+      </div>
+      <div style="text-align:right;">
+        <span class="user-info" id="user-email"></span><br/>
+        <button class="btn btn-danger btn-sm" onclick="signOut()" style="margin-top:4px;">登出</button>
+      </div>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="card">
+      <h3>聯絡資料 Contact Info</h3>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="field-email" placeholder="mary@example.com" />
+        <div class="hint">留空則顯示「即將公佈」</div>
+      </div>
+      <div class="form-group">
+        <label>WhatsApp 號碼 (含區號)</label>
+        <input type="text" id="field-whatsapp" placeholder="85298765432" />
+        <div class="hint">留空則顯示「即將公佈」。格式：852XXXXXXXX（無空格、無+號）</div>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="card">
+      <h3>主頁標題 Hero Section</h3>
+      <div class="form-group">
+        <label>副標題（中文）</label>
+        <input type="text" id="field-subtitle-zh" />
+      </div>
+      <div class="form-group">
+        <label>副標題（English）</label>
+        <input type="text" id="field-subtitle-en" />
+      </div>
+      <div class="form-group">
+        <label>簡介段落（中文）</label>
+        <textarea id="field-hero-zh" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>簡介段落（English）</label>
+        <textarea id="field-hero-en" rows="3"></textarea>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="card">
+      <h3>關於我 About</h3>
+      <div class="form-group">
+        <label>職銜（中文）</label>
+        <input type="text" id="field-role-zh" />
+      </div>
+      <div class="form-group">
+        <label>職銜（English）</label>
+        <input type="text" id="field-role-en" />
+      </div>
+      <div class="form-group">
+        <label>詳細介紹（中文）— 段落1</label>
+        <textarea id="field-about-zh-1" rows="4"></textarea>
+      </div>
+      <div class="form-group">
+        <label>詳細介紹（English）— Paragraph 1</label>
+        <textarea id="field-about-en-1" rows="4"></textarea>
+      </div>
+      <div class="form-group">
+        <label>詳細介紹（中文）— 段落2</label>
+        <textarea id="field-about-zh-2" rows="4"></textarea>
+      </div>
+      <div class="form-group">
+        <label>詳細介紹（English）— Paragraph 2</label>
+        <textarea id="field-about-en-2" rows="4"></textarea>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="saveAll()" style="width:100%;padding:16px;font-size:1.1rem;">
+      儲存所有變更 Save All Changes
+    </button>
+    <p style="text-align:center;margin-top:12px;color:#94a3b8;font-size:0.85rem;">儲存後網站即時更新，無需其他操作</p>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut as fbSignOut } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js';
+    import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAftFNUbPnpCREuJtFfZNdSY4c_COWya4A",
+      authDomain: "ngo-training-hub.firebaseapp.com",
+      projectId: "ngo-training-hub",
+      storageBucket: "ngo-training-hub.firebasestorage.app",
+      messagingSenderId: "415614422975",
+      appId: "1:415614422975:web:34abcd8d589e485926db0a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const provider = new GoogleAuthProvider();
+
+    // Allowed admin emails
+    const ALLOWED_EMAILS = [
+      'aushterryusa@gmail.com'
+      // Add Mary's email here
+    ];
+
+    window.signIn = function() {
+      signInWithPopup(auth, provider).catch(function(err) {
+        showToast('登入失敗: ' + err.message, 'error');
+      });
+    };
+
+    window.signOut = function() {
+      fbSignOut(auth);
+    };
+
+    onAuthStateChanged(auth, async function(user) {
+      if (user && ALLOWED_EMAILS.includes(user.email)) {
+        document.getElementById('login-panel').style.display = 'none';
+        document.getElementById('admin-panel').style.display = 'block';
+        document.getElementById('user-email').textContent = user.email;
+        await loadContent();
+      } else if (user) {
+        fbSignOut(auth);
+        showToast('此帳號未獲授權 / Unauthorized account: ' + user.email, 'error');
+      } else {
+        document.getElementById('login-panel').style.display = 'block';
+        document.getElementById('admin-panel').style.display = 'none';
+      }
+    });
+
+    async function loadContent() {
+      try {
+        var snap = await getDoc(doc(db, 'site', 'content'));
+        if (snap.exists()) {
+          var data = snap.data();
+          var fields = ['email', 'whatsapp', 'subtitle-zh', 'subtitle-en', 'hero-zh', 'hero-en',
+            'role-zh', 'role-en', 'about-zh-1', 'about-en-1', 'about-zh-2', 'about-en-2'];
+          fields.forEach(function(f) {
+            var el = document.getElementById('field-' + f);
+            if (el && data[f]) el.value = data[f];
+          });
+        }
+      } catch (err) {
+        showToast('載入失敗: ' + err.message, 'error');
+      }
+    }
+
+    window.saveAll = async function() {
+      try {
+        var data = {};
+        var fields = ['email', 'whatsapp', 'subtitle-zh', 'subtitle-en', 'hero-zh', 'hero-en',
+          'role-zh', 'role-en', 'about-zh-1', 'about-en-1', 'about-zh-2', 'about-en-2'];
+        fields.forEach(function(f) {
+          var el = document.getElementById('field-' + f);
+          if (el) data[f] = el.value.trim();
+        });
+        data.updatedAt = new Date().toISOString();
+        data.updatedBy = auth.currentUser.email;
+        await setDoc(doc(db, 'site', 'content'), data, { merge: true });
+        showToast('已儲存！網站已更新。', 'success');
+      } catch (err) {
+        showToast('儲存失敗: ' + err.message, 'error');
+      }
+    };
+
+    function showToast(msg, type) {
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast ' + type;
+      setTimeout(function() { t.className = 'toast'; }, 4000);
+    }
+  </script>
+</body>
+</html>
