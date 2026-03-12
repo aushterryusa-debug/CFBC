@@ -162,7 +162,46 @@
       font-size: 0.8rem; font-weight: 600; margin-bottom: 12px;
     }
     .portfolio-item h4 { font-size: 1.05rem; margin-bottom: 8px; }
-    .portfolio-item p { color: var(--text-light); font-size: 0.88rem; }
+    .portfolio-item p { color: var(--text-light); font-size: 0.88rem; margin-bottom: 8px; }
+    .portfolio-item .detail-list { list-style: none; margin: 12px 0; }
+    .portfolio-item .detail-list li {
+      padding: 4px 0; font-size: 0.85rem; color: var(--text-light);
+      position: relative; padding-left: 18px;
+    }
+    .portfolio-item .detail-list li::before {
+      content: "·"; position: absolute; left: 0;
+      color: var(--primary); font-weight: 700; font-size: 1.2rem; line-height: 1.4;
+    }
+    .portfolio-item .meta {
+      display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0;
+    }
+    .portfolio-item .meta-tag {
+      background: #f1f5f9; color: var(--text-light);
+      padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;
+    }
+    .portfolio-item .link-btn {
+      display: inline-block; margin-top: 10px; margin-right: 8px;
+      padding: 6px 14px; border-radius: 6px; font-size: 0.82rem;
+      font-weight: 500; text-decoration: none; transition: all 0.2s;
+      background: var(--primary); color: var(--white);
+    }
+    .portfolio-item .link-btn:hover { background: var(--primary-dark); }
+    .portfolio-item .link-btn.outline {
+      background: transparent; color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+    .portfolio-item .link-btn.outline:hover {
+      background: var(--primary); color: var(--white);
+    }
+    .portfolio-item .video-embed {
+      width: 100%; aspect-ratio: 16/9; border-radius: 8px;
+      margin: 12px 0; border: 1px solid var(--border);
+    }
+    .portfolio-item .img-thumb {
+      width: 100%; border-radius: 8px; margin: 12px 0;
+      border: 1px solid var(--border); object-fit: cover; max-height: 200px;
+    }
+    .portfolio-full { grid-column: 1 / -1; }
 
     /* CONTACT */
     #contact { background: var(--bg); }
@@ -426,70 +465,207 @@
         <span data-lang="en">Selected projects across training and design</span>
       </p>
       <div class="portfolio-grid">
-        <div class="portfolio-item">
-          <span class="tag" data-lang="zh">媒體</span>
-          <span class="tag" data-lang="en">Media</span>
-          <h4 data-lang="zh">香港電台第一台《非常人物生活雜誌》訪問</h4>
-          <h4 data-lang="en">RTHK Radio 1 "Extraordinary People" Interview</h4>
-          <p data-lang="zh">獲邀接受香港電台訪問，介紹「照顧者快線」電話支援及流動宣傳車服務，推廣照顧者友善社區理念。</p>
-          <p data-lang="en">Featured interview on RTHK Radio 1 introducing the "Carer Express" telephone support and mobile outreach service, promoting carer-friendly communities.</p>
+
+        <!-- 1. 欣悅坊 — FLAGSHIP -->
+        <div class="portfolio-item portfolio-full">
+          <span class="tag" data-lang="zh">服務管理</span>
+          <span class="tag" data-lang="en">Management</span>
+          <h4 data-lang="zh">欣悅坊 — 殘疾人士地區支援中心（觀塘東）</h4>
+          <h4 data-lang="en">Cheerful Place — District Support Centre for Persons with Disabilities (Kwun Tong East)</h4>
+          <iframe class="video-embed" src="https://www.youtube.com/embed/U2nUK6eqBpc" title="欣悅坊服務簡介" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <p data-lang="zh">
+            馬韻瑜現時管理的旗艦服務單位。欣悅坊由社會福利署資助、基督教家庭服務中心營運，為觀塘東區（翠屏、寶達、秀茂坪、藍田、油塘、鯉魚門）殘疾人士及其照顧者提供一站式社區支援服務。中心以跨專業團隊模式運作，提供 13 類服務。
+          </p>
+          <p data-lang="en">
+            Mary Ma's flagship service unit. Cheerful Place is funded by the Social Welfare Department and operated by CFSC, providing one-stop community support for persons with disabilities and their carers across Kwun Tong East (Tsui Ping, Po Tat, Sau Mau Ping, Lam Tin, Yau Tong, Lei Yue Mun). The centre operates with a multidisciplinary team offering 13 service categories.
+          </p>
+          <ul class="detail-list">
+            <li data-lang="zh">13 類服務：個人/小組訓練、社交康樂、日間照顧、暫託、家居支援、照顧者支援、專職治療（物理/職業/言語）、個案管理、臨床心理、社區教育、離校生支援等</li>
+            <li data-lang="en">13 service types: individual/group training, social recreation, day care, respite, home support, carer support, allied health therapy (physio/OT/speech), case management, clinical psychology, community education, school leaver support</li>
+            <li data-lang="zh">日間暫託 $5/小時 | 日間照顧連午膳 $61/天 | 專職治療家訪 $52/節 | 會員年費 $21</li>
+            <li data-lang="en">Day respite $5/hr | Day care with lunch $61/day | Allied health home visit $52/session | Annual membership $21</li>
+            <li data-lang="zh">出版季刊通訊（2022年至今共 18 期），記錄中心活動、服務成果及社區資源</li>
+            <li data-lang="en">Publishes quarterly newsletters (18 issues since 2022), documenting activities, service outcomes, and community resources</li>
+            <li data-lang="zh">2024年4月新增「離校生支援隊」，支援特殊學校畢業生融入社區</li>
+            <li data-lang="en">Launched "School Leaver Support Team" in April 2024 for special school graduates transitioning to community life</li>
+          </ul>
+          <div class="meta">
+            <span class="meta-tag" data-lang="zh">地址：觀塘福塘道4號齊寧綜合康復服務大樓8樓</span>
+            <span class="meta-tag" data-lang="en">8/F, Chi Neng Building, 4 Fok Tong Road, Kwun Tong</span>
+            <span class="meta-tag">Tel: 2191 3138</span>
+            <span class="meta-tag">cheerfulplace@cfsc.org.hk</span>
+            <span class="meta-tag" data-lang="zh">星期一至六 9:00-18:00</span>
+            <span class="meta-tag" data-lang="en">Mon-Sat 9:00-18:00</span>
+          </div>
+          <a href="https://www.cfsc.org.hk/dsc" class="link-btn" target="_blank" data-lang="zh">欣悅坊官網</a>
+          <a href="https://www.cfsc.org.hk/dsc" class="link-btn" target="_blank" data-lang="en">Cheerful Place Website</a>
+          <a href="https://youtu.be/U2nUK6eqBpc" class="link-btn outline" target="_blank" data-lang="zh">服務簡介影片</a>
+          <a href="https://youtu.be/U2nUK6eqBpc" class="link-btn outline" target="_blank" data-lang="en">Service Overview Video</a>
+          <a href="https://www.cfsc.org.hk/dsc/content/view/newsletter?lang=zh-TW" class="link-btn outline" target="_blank" data-lang="zh">季刊通訊 (18期)</a>
+          <a href="https://www.cfsc.org.hk/dsc/content/view/newsletter?lang=zh-TW" class="link-btn outline" target="_blank" data-lang="en">Quarterly Newsletters (18 issues)</a>
         </div>
+
+        <!-- 2. 照顧者快線 CarerExpress -->
+        <div class="portfolio-item portfolio-full">
+          <span class="tag" data-lang="zh">服務管理</span>
+          <span class="tag" data-lang="en">Management</span>
+          <h4 data-lang="zh">照顧者快線 CarerExpress</h4>
+          <h4 data-lang="en">Carer Express Service</h4>
+          <p data-lang="zh">
+            以「L.I.N.K.」理念統籌的照顧者外展服務，透過流動宣傳車及電話快線，走訪觀塘、黃大仙及將軍澳，及早識別照顧者需要。啟動禮獲社會福利署署長杜永恒先生 JP 主禮，服務至今超過 7,000 人次。
+          </p>
+          <p data-lang="en">
+            A carer outreach service built on the "L.I.N.K." framework, using mobile outreach vans and a telephone hotline across Kwun Tong, Wong Tai Sin, and Tseung Kwan O for early identification of carer needs. Launch ceremony officiated by SWD Director Mr. Gordon Leung, JP. Over 7,000 service contacts to date.
+          </p>
+          <ul class="detail-list">
+            <li data-lang="zh"><strong>L</strong> — Life Unfolded：真人圖書館，照顧者分享真實故事</li>
+            <li data-lang="en"><strong>L</strong> — Life Unfolded: Real-life library sharing stories from fellow caregivers</li>
+            <li data-lang="zh"><strong>I</strong> — Innovative Technologies：AI 智能家居裝置，減輕照顧負擔</li>
+            <li data-lang="en"><strong>I</strong> — Innovative Technologies: AI smart home devices reducing caregiving burden</li>
+            <li data-lang="zh"><strong>N</strong> — Nurturing Wellness：運動及精神健康支援小組</li>
+            <li data-lang="en"><strong>N</strong> — Nurturing Wellness: Exercise and mental health support groups</li>
+            <li data-lang="zh"><strong>K</strong> — Kickstart Knowledge：實用照顧技巧及數碼共融培訓</li>
+            <li data-lang="en"><strong>K</strong> — Kickstart Knowledge: Practical caregiving skills and digital inclusion</li>
+            <li data-lang="zh">服務對象：東九龍潛在需要照顧者、在職照顧者、高壓照顧者、體弱照顧者</li>
+            <li data-lang="en">Target groups: potential carers in East Kowloon, working carers, highly stressed carers, frail carers</li>
+            <li data-lang="zh">免費服務 | 電話快線：2997 8233（辦公時間）</li>
+            <li data-lang="en">Free service | Hotline: 2997 8233 (office hours)</li>
+          </ul>
+          <div class="meta">
+            <span class="meta-tag">7,000+</span>
+            <span class="meta-tag" data-lang="zh">服務人次</span>
+            <span class="meta-tag" data-lang="en">Service Contacts</span>
+            <span class="meta-tag">carerexpress@cfsc.org.hk</span>
+            <span class="meta-tag" data-lang="zh">觀塘 · 黃大仙 · 將軍澳</span>
+            <span class="meta-tag" data-lang="en">Kwun Tong · Wong Tai Sin · TKO</span>
+          </div>
+          <a href="https://www.cfsc.org.hk/dsc/content/view/carer-express?lang=zh-TW" class="link-btn" target="_blank" data-lang="zh">照顧者快線詳情</a>
+          <a href="https://www.cfsc.org.hk/dsc/content/view/carer-express?lang=zh-TW" class="link-btn" target="_blank" data-lang="en">Carer Express Details</a>
+        </div>
+
+        <!-- 3. RTHK Interview -->
+        <div class="portfolio-item">
+          <span class="tag" data-lang="zh">媒體訪問</span>
+          <span class="tag" data-lang="en">Media</span>
+          <h4 data-lang="zh">香港電台第一台《非常人物生活雜誌》</h4>
+          <h4 data-lang="en">RTHK Radio 1 "Extraordinary People"</h4>
+          <div class="meta">
+            <span class="meta-tag">2026-03-01</span>
+            <span class="meta-tag">RTHK Radio 1</span>
+          </div>
+          <p data-lang="zh">
+            獲邀接受香港電台第一台《非常人物生活雜誌》節目訪問，與長者服務社工列國能先生一同介紹「照顧者快線」電話支援及流動宣傳車服務，分享如何打造照顧者友善社區，及早發現及協助有需要的照顧者。
+          </p>
+          <p data-lang="en">
+            Featured interview on RTHK Radio 1's "Extraordinary People" programme alongside colleague Mr. Lit Kwok Nang, introducing the "Carer Express" telephone support and mobile outreach service. Discussed building carer-friendly communities and early identification of carers in need.
+          </p>
+          <a href="https://www.rthk.hk/radio/radio1/programme/extraordinary_people" class="link-btn" target="_blank" data-lang="zh">RTHK 節目頁面</a>
+          <a href="https://www.rthk.hk/radio/radio1/programme/extraordinary_people" class="link-btn" target="_blank" data-lang="en">RTHK Programme Page</a>
+        </div>
+
+        <!-- 4. Ming Pao -->
+        <div class="portfolio-item">
+          <span class="tag" data-lang="zh">媒體訪問</span>
+          <span class="tag" data-lang="en">Media</span>
+          <h4 data-lang="zh">《明報》專訪 — 傷患者目標或卑微 社會應有同理心</h4>
+          <h4 data-lang="en">Ming Pao Feature — Society Should Show Empathy for Persons with Disabilities</h4>
+          <div class="meta">
+            <span class="meta-tag">2026-01-15</span>
+            <span class="meta-tag" data-lang="zh">明報</span>
+            <span class="meta-tag" data-lang="en">Ming Pao Daily</span>
+          </div>
+          <p data-lang="zh">
+            與服務總監王超敏一同接受《明報》訪問，以「殘疾人士綜合服務觀塘東支援中心高級經理」身份，分享觀塘東支援中心的服務經驗，探討社會對傷患者應有的同理心，以及如何支援殘疾人士實現個人目標。
+          </p>
+          <p data-lang="en">
+            Interviewed alongside Service Director Wong Chiu Man by Ming Pao in her capacity as Senior Manager of the Kwun Tong East Support Centre. Discussed society's empathy for persons with disabilities and how to support them in achieving their personal goals.
+          </p>
+        </div>
+
+        <!-- 5. HKET Column -->
         <div class="portfolio-item">
           <span class="tag" data-lang="zh">專欄</span>
           <span class="tag" data-lang="en">Column</span>
           <h4 data-lang="zh">《香港經濟日報》專欄「新香港人」</h4>
           <h4 data-lang="en">HKET Column — "New Hong Kongers"</h4>
-          <p data-lang="zh">於《香港經濟日報》撰寫專欄，探討企業社會責任與社區服務的關係。</p>
-          <p data-lang="en">Authored a column in the Hong Kong Economic Times discussing the relationship between corporate social responsibility and community services.</p>
+          <div class="meta">
+            <span class="meta-tag">2010-11-08</span>
+            <span class="meta-tag" data-lang="zh">香港經濟日報</span>
+            <span class="meta-tag" data-lang="en">Hong Kong Economic Times</span>
+            <span class="meta-tag" data-lang="zh">職銜：健康推廣主任</span>
+            <span class="meta-tag" data-lang="en">Title: Health Promotion Officer</span>
+          </div>
+          <p data-lang="zh">
+            以「基督教家庭服務中心健康推廣主任」身份，於《香港經濟日報》「知‧析趨勢」版面撰寫專欄文章「利潤最大化豈能忘社會責任」，探討企業在追求利潤最大化的同時不應忘記社會責任。
+          </p>
+          <p data-lang="en">
+            Authored a column titled "Maximising Profits Must Not Forget Social Responsibility" in HKET's "Knowledge & Trends" section as CFSC Health Promotion Officer, discussing how corporations should balance profit maximisation with social responsibility.
+          </p>
         </div>
+
+        <!-- 6. nowTV -->
+        <div class="portfolio-item">
+          <span class="tag" data-lang="zh">電視節目</span>
+          <span class="tag" data-lang="en">TV</span>
+          <h4 data-lang="zh">nowTV 105「自・療」園藝治療篇</h4>
+          <h4 data-lang="en">nowTV Ch.105 "Self-Healing" — Horticultural Therapy</h4>
+          <div class="meta">
+            <span class="meta-tag">nowTV 105</span>
+            <span class="meta-tag" data-lang="zh">海潤劇集台</span>
+            <span class="meta-tag" data-lang="en">Hoi Yun Drama Channel</span>
+          </div>
+          <p data-lang="zh">
+            參與 nowTV 105 海潤劇集台「自・療」園藝治療篇節目拍攝，推廣園藝治療於殘疾人士康復服務中的應用，展示欣悅坊如何透過園藝活動促進服務使用者的身心健康。
+          </p>
+          <p data-lang="en">
+            Featured on nowTV Channel 105 "Self-Healing" programme on horticultural therapy, showcasing how Cheerful Place uses gardening activities to promote the physical and mental well-being of service users with disabilities.
+          </p>
+        </div>
+
+        <!-- 7. Cancer Carers Handbook -->
         <div class="portfolio-item">
           <span class="tag" data-lang="zh">跨機構協作</span>
           <span class="tag" data-lang="en">Collaboration</span>
           <h4 data-lang="zh">癌症病人照顧者全面手冊</h4>
-          <h4 data-lang="en">Cancer Carers Comprehensive Handbook</h4>
-          <p data-lang="zh">參與跨機構協作項目，為癌症病人照顧者編制全面支援手冊，獲列入鳴謝名單。</p>
-          <p data-lang="en">Contributed to a cross-sector collaboration producing a comprehensive support handbook for cancer patient carers.</p>
+          <h4 data-lang="en">Comprehensive Handbook for Cancer Patient Carers</h4>
+          <p data-lang="zh">
+            參與跨機構協作項目，為癌症病人照顧者編制全面支援手冊，涵蓋照顧技巧、情緒支援、社區資源等範疇。馬韻瑜女士獲列入鳴謝名單，肯定其專業貢獻。
+          </p>
+          <p data-lang="en">
+            Contributed to a cross-sector collaboration producing a comprehensive support handbook for cancer patient carers, covering caregiving skills, emotional support, and community resources. Mary Ma is listed in the acknowledgements for her professional contribution.
+          </p>
+          <a href="https://www.cancercarers.org.hk/" class="link-btn" target="_blank" data-lang="zh">手冊網站</a>
+          <a href="https://www.cancercarers.org.hk/" class="link-btn" target="_blank" data-lang="en">Handbook Website</a>
         </div>
-        <div class="portfolio-item">
-          <span class="tag" data-lang="zh">服務管理</span>
-          <span class="tag" data-lang="en">Management</span>
-          <h4 data-lang="zh">照顧者快線 CarerExpress</h4>
-          <h4 data-lang="en">Carer Express Service</h4>
-          <p data-lang="zh">以「L.I.N.K.」理念統籌「照顧者快線」服務，流動車走訪觀塘、黃大仙及將軍澳，配合電話快線及早識別照顧者需要。啟動禮獲社會福利署署長杜永恒先生 JP 主禮，服務至今超過 7,000 人次。</p>
-          <p data-lang="en">Led the "Carer Express" programme based on the "L.I.N.K." concept — a mobile outreach van covering Kwun Tong, Wong Tai Sin, and Tseung Kwan O with telephone support for early carer identification. Launch ceremony officiated by SWD Director. Over 7,000 service contacts to date.</p>
-        </div>
+
+        <!-- 8. ESG Conference -->
         <div class="portfolio-item">
           <span class="tag" data-lang="zh">研討會</span>
           <span class="tag" data-lang="en">Conference</span>
           <h4 data-lang="zh">「敢」動晚年自立支援照顧實踐研討會</h4>
           <h4 data-lang="en">Empowering Self-Care in Later Life Conference</h4>
-          <p data-lang="zh">參與策劃及推動晚年自立支援照顧的實踐研討會，分享前線服務經驗。</p>
-          <p data-lang="en">Participated in organising a practice conference on empowering self-care support in later life, sharing frontline service insights.</p>
+          <p data-lang="zh">
+            參與策劃及推動由 CFSC 主辦的晚年自立支援照顧實踐研討會，分享前線服務經驗，探討如何推動 ESG 與社會效益的可持續發展，促進殘疾人士及長者的自立生活。
+          </p>
+          <p data-lang="en">
+            Participated in organising CFSC's practice conference on empowering self-care support in later life, sharing frontline insights on sustainable ESG and social impact development for persons with disabilities and the elderly.
+          </p>
         </div>
+
+        <!-- 9. Haven of Hope -->
         <div class="portfolio-item">
-          <span class="tag" data-lang="zh">媒體</span>
-          <span class="tag" data-lang="en">Media</span>
-          <h4 data-lang="zh">明報專訪 — 傷患者目標與社會同理心</h4>
-          <h4 data-lang="en">Ming Pao Feature — Empathy for Persons with Disabilities</h4>
-          <p data-lang="zh">接受《明報》訪問，分享觀塘東支援中心的服務經驗，探討社會對傷患者應有的同理心。（2026年1月）</p>
-          <p data-lang="en">Featured in Ming Pao discussing empathy for persons with disabilities and sharing experience from the Kwun Tong East Support Centre. (January 2026)</p>
+          <span class="tag" data-lang="zh">跨機構協作</span>
+          <span class="tag" data-lang="en">Collaboration</span>
+          <h4 data-lang="zh">基督教靈實協會合作</h4>
+          <h4 data-lang="en">Haven of Hope Christian Service Collaboration</h4>
+          <p data-lang="zh">
+            與基督教靈實協會合作，獲刊載於靈實協會刊物《靈感》中。靈實協會為新界東區主要社福機構，合作範疇涵蓋殘疾人士服務及社區支援。
+          </p>
+          <p data-lang="en">
+            Collaborated with Haven of Hope Christian Service, featured in their publication "Haven Inspiration". Haven of Hope is a major social welfare organisation in the New Territories East, with collaboration covering disability services and community support.
+          </p>
         </div>
-        <div class="portfolio-item">
-          <span class="tag" data-lang="zh">服務管理</span>
-          <span class="tag" data-lang="en">Management</span>
-          <h4 data-lang="zh">欣悅坊 — 地區支援中心（觀塘東）</h4>
-          <h4 data-lang="en">Cheerful Place — District Support Centre (Kwun Tong East)</h4>
-          <p data-lang="zh">管理欣悅坊 — 殘疾人士地區支援中心（觀塘東），為翠屏、寶達、秀茂坪、藍田、油塘及鯉魚門區內殘疾人士及照顧者提供一站式社區支援服務。</p>
-          <p data-lang="en">Managing Cheerful Place DSC, providing one-stop community support for persons with disabilities and their carers across Tsui Ping, Po Tat, Sau Mau Ping, Lam Tin, Yau Tong, and Lei Yue Mun.</p>
-        </div>
-        <div class="portfolio-item">
-          <span class="tag" data-lang="zh">媒體</span>
-          <span class="tag" data-lang="en">Media</span>
-          <h4 data-lang="zh">nowTV「自・療」園藝治療篇</h4>
-          <h4 data-lang="en">nowTV "Self-Healing" — Horticultural Therapy</h4>
-          <p data-lang="zh">參與 nowTV 105 海潤劇集台「自・療」園藝治療篇節目，推廣園藝治療於殘疾人士康復服務中的應用。</p>
-          <p data-lang="en">Featured on nowTV Channel 105 "Self-Healing" programme on horticultural therapy, promoting its application in rehabilitation services for persons with disabilities.</p>
-        </div>
+
       </div>
     </div>
   </section>
