@@ -1,96 +1,607 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CFBC - Firebase Web App</title>
+  <meta name="description" content="馬韻瑜 Mary Ma — 資深社工，為非牟利機構提供前線員工培訓及通訊刊物設計服務。" />
+  <title>馬韻瑜 Mary Ma | NGO 培訓及設計顧問</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --border: #e2e8f0;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+      --radius: 12px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 2rem;
-      background: #f5f5f5;
-      color: #333;
+      font-family: 'Noto Sans TC', 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
     }
-    h1 { margin-bottom: 0.5rem; color: #1a73e8; }
-    .subtitle { color: #666; margin-bottom: 2rem; }
-    .card {
-      background: #fff;
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    html { scroll-behavior: smooth; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100; padding: 0 24px;
     }
-    .card h2 { margin-bottom: 1rem; font-size: 1.2rem; }
-    .file-controls {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      flex-wrap: wrap;
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center;
+      justify-content: space-between; height: 64px;
     }
-    input[type="file"] {
-      flex: 1;
-      min-width: 200px;
+    .nav-brand {
+      font-weight: 700; font-size: 1.1rem;
+      color: var(--primary); text-decoration: none;
     }
-    button {
-      background: #1a73e8;
-      color: #fff;
-      border: none;
-      padding: 0.6rem 1.5rem;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1rem;
+    .nav-links { display: flex; gap: 8px; align-items: center; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--text);
+      font-size: 0.9rem; font-weight: 500;
+      padding: 6px 14px; border-radius: 8px;
+      transition: background 0.2s;
     }
-    button:hover { background: #1557b0; }
-    .status { padding: 0.5rem; margin-top: 1rem; border-radius: 4px; }
-    .status.success { background: #e8f5e9; color: #2e7d32; }
-    .status.error { background: #fce4ec; color: #c62828; }
-    #preview {
-      margin-top: 1rem;
-      max-height: 500px;
-      overflow: auto;
+    .nav-links a:hover { background: #f1f5f9; }
+    .lang-btn {
+      background: var(--primary); color: var(--white) !important;
+      cursor: pointer; border: none; font-size: 0.85rem;
+      font-weight: 600; padding: 6px 14px; border-radius: 8px;
+      font-family: inherit; transition: background 0.2s;
     }
-    #preview table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 0.5rem 0;
+    .lang-btn:hover { background: var(--primary-dark); }
+    .menu-toggle {
+      display: none; background: none; border: none;
+      font-size: 1.5rem; cursor: pointer; color: var(--text);
     }
-    #preview th, #preview td {
-      border: 1px solid #ddd;
-      padding: 0.4rem 0.8rem;
-      text-align: left;
+
+    /* HERO */
+    .hero {
+      padding: 140px 24px 80px; text-align: center;
+      background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 50%, #fffbeb 100%);
     }
-    #preview th { background: #f0f0f0; }
-    ul { list-style: none; }
-    ul li {
-      padding: 0.5rem 0;
-      border-bottom: 1px solid #eee;
+    .hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 8px; }
+    .hero .subtitle { font-size: 1.15rem; color: var(--primary); font-weight: 500; margin-bottom: 20px; }
+    .hero p { max-width: 620px; margin: 0 auto 32px; color: var(--text-light); font-size: 1.05rem; }
+    .hero-cta { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      display: inline-block; padding: 12px 28px; border-radius: 10px;
+      font-weight: 600; font-size: 0.95rem; text-decoration: none;
+      transition: all 0.2s; font-family: inherit; cursor: pointer; border: none;
     }
+    .btn-primary { background: var(--primary); color: var(--white); }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+    .btn-outline:hover { background: var(--primary); color: var(--white); }
+    .btn-whatsapp { background: #25d366; color: var(--white); }
+    .btn-whatsapp:hover { background: #1fb855; transform: translateY(-1px); }
+
+    /* SECTIONS */
+    section { padding: 80px 24px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-title { text-align: center; font-size: 1.8rem; font-weight: 700; margin-bottom: 12px; }
+    .section-desc { text-align: center; color: var(--text-light); max-width: 600px; margin: 0 auto 48px; }
+
+    /* SERVICES */
+    #services { background: var(--white); }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
+    .service-card {
+      background: var(--bg); border-radius: var(--radius);
+      padding: 36px 32px; border: 1px solid var(--border);
+      transition: box-shadow 0.3s, transform 0.2s;
+    }
+    .service-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+    .service-icon { font-size: 2.2rem; margin-bottom: 16px; }
+    .service-card h3 { font-size: 1.25rem; margin-bottom: 12px; }
+    .service-card p { color: var(--text-light); font-size: 0.95rem; margin-bottom: 16px; }
+    .service-card ul { list-style: none; }
+    .service-card li {
+      padding: 6px 0; font-size: 0.9rem;
+      position: relative; padding-left: 20px;
+    }
+    .service-card li::before {
+      content: "✓"; position: absolute; left: 0;
+      color: var(--primary); font-weight: 700;
+    }
+
+    /* ABOUT */
+    #about { background: var(--bg); }
+    .about-content { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; align-items: start; }
+    .about-card {
+      background: var(--white); border-radius: var(--radius);
+      padding: 36px; text-align: center;
+      border: 1px solid var(--border); box-shadow: var(--shadow);
+    }
+    .about-avatar {
+      width: 120px; height: 120px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), #7c3aed);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px; color: var(--white);
+      font-size: 2.5rem; font-weight: 700;
+    }
+    .about-card h3 { font-size: 1.3rem; margin-bottom: 4px; }
+    .about-card .role { color: var(--text-light); font-size: 0.9rem; margin-bottom: 16px; }
+    .about-card .org {
+      display: inline-block; background: #eff6ff; color: var(--primary);
+      padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 500;
+    }
+    .about-details h3 { font-size: 1.3rem; margin-bottom: 16px; }
+    .about-details p { color: var(--text-light); margin-bottom: 16px; font-size: 0.95rem; }
+    .credentials { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .credential-tag {
+      background: var(--white); border: 1px solid var(--border);
+      padding: 8px 16px; border-radius: 8px;
+      font-size: 0.85rem; font-weight: 500;
+    }
+
+    /* PORTFOLIO */
+    #portfolio { background: var(--white); }
+    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .portfolio-item {
+      background: var(--bg); border-radius: var(--radius);
+      padding: 28px; border: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    .portfolio-item:hover { box-shadow: var(--shadow-lg); }
+    .portfolio-item .tag {
+      display: inline-block; background: #eff6ff; color: var(--primary);
+      padding: 3px 10px; border-radius: 6px;
+      font-size: 0.8rem; font-weight: 600; margin-bottom: 12px;
+    }
+    .portfolio-item h4 { font-size: 1.05rem; margin-bottom: 8px; }
+    .portfolio-item p { color: var(--text-light); font-size: 0.88rem; }
+
+    /* CONTACT */
+    #contact { background: var(--bg); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .contact-info h3 { font-size: 1.2rem; margin-bottom: 16px; }
+    .contact-info p { color: var(--text-light); margin-bottom: 24px; font-size: 0.95rem; }
+    .contact-item { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .contact-item .icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .contact-item .icon.email-icon { background: #eff6ff; }
+    .contact-item .icon.wa-icon { background: #dcfce7; }
+    .contact-item a { color: var(--text); text-decoration: none; word-break: break-all; }
+    .contact-item a:hover { color: var(--primary); }
+    .contact-form {
+      background: var(--white); border-radius: var(--radius);
+      padding: 32px; border: 1px solid var(--border); box-shadow: var(--shadow);
+    }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+      border-radius: 8px; font-size: 0.95rem; font-family: inherit;
+      background: var(--bg); color: var(--text); transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      outline: none; border-color: var(--primary);
+    }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+
+    /* FOOTER */
+    footer {
+      background: var(--text); color: #94a3b8;
+      text-align: center; padding: 32px 24px; font-size: 0.85rem;
+    }
+    footer a { color: #94a3b8; text-decoration: none; }
+    footer a:hover { color: var(--white); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav-links {
+        display: none; position: absolute; top: 64px; left: 0; right: 0;
+        background: var(--white); flex-direction: column;
+        padding: 16px 24px; border-bottom: 1px solid var(--border); box-shadow: var(--shadow);
+      }
+      .nav-links.open { display: flex; }
+      .hero h1 { font-size: 1.8rem; }
+      .hero .subtitle { font-size: 1rem; }
+      .about-content { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+    }
+
+    /* LANGUAGE TOGGLE */
+    [data-lang="en"] { display: none; }
+    body.lang-en [data-lang="zh"] { display: none; }
+    body.lang-en [data-lang="en"] { display: revert; }
+    span[data-lang="zh"], span[data-lang="en"] { display: inline; }
+    body.lang-en span[data-lang="zh"] { display: none; }
+    span[data-lang="en"] { display: none; }
+    body.lang-en span[data-lang="en"] { display: inline; }
+    li[data-lang="en"] { display: none; }
+    body.lang-en li[data-lang="zh"] { display: none; }
+    body.lang-en li[data-lang="en"] { display: list-item; }
+    .nav-links li[data-lang="zh"], .nav-links li[data-lang="en"] { display: block; }
+    .nav-links li[data-lang="en"] { display: none; }
+    body.lang-en .nav-links li[data-lang="zh"] { display: none; }
+    body.lang-en .nav-links li[data-lang="en"] { display: block; }
+    option[data-lang="en"] { display: none; }
+    body.lang-en option[data-lang="zh"] { display: none; }
+    body.lang-en option[data-lang="en"] { display: block; }
   </style>
 </head>
 <body>
-  <h1>CFBC</h1>
-  <p class="subtitle">Firebase Web App - Import Markdown & Excel files</p>
 
-  <div class="card">
-    <h2>Import File</h2>
-    <div class="file-controls">
-      <input type="file" id="file-input" accept=".md,.markdown,.xlsx,.xls,.csv" />
-      <button id="import-btn">Import</button>
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">
+        <span data-lang="zh">馬韻瑜顧問</span>
+        <span data-lang="en">Mary Ma Consulting</span>
+      </a>
+      <button class="menu-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+      <ul class="nav-links">
+        <li data-lang="zh"><a href="#services">服務範疇</a></li>
+        <li data-lang="en"><a href="#services">Services</a></li>
+        <li data-lang="zh"><a href="#about">關於我</a></li>
+        <li data-lang="en"><a href="#about">About</a></li>
+        <li data-lang="zh"><a href="#portfolio">過往項目</a></li>
+        <li data-lang="en"><a href="#portfolio">Portfolio</a></li>
+        <li data-lang="zh"><a href="#contact">聯絡</a></li>
+        <li data-lang="en"><a href="#contact">Contact</a></li>
+        <li><button class="lang-btn" onclick="toggleLang()">EN / 中</button></li>
+      </ul>
     </div>
-    <div id="status"></div>
-    <div id="preview"></div>
-  </div>
+  </nav>
 
-  <div class="card">
-    <h2>Previous Imports</h2>
-    <ul id="imports-list">
-      <li>Loading...</li>
-    </ul>
-  </div>
+  <!-- HERO -->
+  <section class="hero">
+    <h1>
+      <span data-lang="zh">馬韻瑜 Mary Ma</span>
+      <span data-lang="en">Mary Ma 馬韻瑜</span>
+    </h1>
+    <div class="subtitle">
+      <span data-lang="zh">CFSC 殘疾人士綜合服務 高級經理 · NGO 培訓及設計顧問</span>
+      <span data-lang="en">CFSC Senior Manager, Integrated Services for Persons with Disabilities · NGO Training & Design Consultant</span>
+    </div>
+    <p data-lang="zh">
+      現職 CFSC 高級經理，超過十五年社福界管理經驗。曾獲香港電台、明報、經濟日報等媒體專訪。專為非牟利機構提供前線員工培訓及專業通訊刊物設計服務。
+    </p>
+    <p data-lang="en">
+      Senior Manager at CFSC with 15+ years in social welfare management. Featured on RTHK, Ming Pao, and HKET. Providing professional frontline staff training and publication design services for NGOs.
+    </p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-primary">
+        <span data-lang="zh">免費諮詢</span>
+        <span data-lang="en">Free Consultation</span>
+      </a>
+      <a href="https://wa.me/85291234567" class="btn btn-whatsapp" target="_blank">
+        WhatsApp
+      </a>
+      <a href="#services" class="btn btn-outline">
+        <span data-lang="zh">了解服務</span>
+        <span data-lang="en">Our Services</span>
+      </a>
+    </div>
+  </section>
 
-  <script type="module" src="/src/app.js"></script>
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <h2 class="section-title">
+        <span data-lang="zh">服務範疇</span>
+        <span data-lang="en">Services</span>
+      </h2>
+      <p class="section-desc">
+        <span data-lang="zh">兩大核心服務，全面支援非牟利機構的人才發展與對外傳訊需要</span>
+        <span data-lang="en">Two core services to support your NGO's staff development and communications needs</span>
+      </p>
+      <div class="services-grid">
+        <!-- Training -->
+        <div class="service-card">
+          <div class="service-icon">🎓</div>
+          <h3>
+            <span data-lang="zh">前線員工培訓</span>
+            <span data-lang="en">Frontline Staff Training</span>
+          </h3>
+          <p data-lang="zh">為 NGO 前線同工度身訂造培訓課程，提升專業技能、服務質素及團隊效能。</p>
+          <p data-lang="en">Customised training programmes for NGO frontline staff to enhance professional skills, service quality, and team effectiveness.</p>
+          <ul>
+            <li data-lang="zh">個案處理技巧</li>
+            <li data-lang="en">Case management skills</li>
+            <li data-lang="zh">危機介入及處理</li>
+            <li data-lang="en">Crisis intervention</li>
+            <li data-lang="zh">溝通與輔導技巧</li>
+            <li data-lang="en">Communication & counselling skills</li>
+            <li data-lang="zh">團隊建設及自我照顧</li>
+            <li data-lang="en">Team building & self-care</li>
+            <li data-lang="zh">新入職同工導向訓練</li>
+            <li data-lang="en">New staff orientation programmes</li>
+            <li data-lang="zh">督導及管理培訓</li>
+            <li data-lang="en">Supervision & management training</li>
+          </ul>
+        </div>
+        <!-- Design -->
+        <div class="service-card">
+          <div class="service-icon">📰</div>
+          <h3>
+            <span data-lang="zh">機構刊物及宣傳設計</span>
+            <span data-lang="en">Publication & Material Design</span>
+          </h3>
+          <p data-lang="zh">協助 NGO 製作專業通訊刊物及宣傳素材，提升機構形象，有效傳遞服務訊息。</p>
+          <p data-lang="en">Professional newsletters, reports, and promotional materials that elevate your NGO's image and effectively communicate your mission.</p>
+          <ul>
+            <li data-lang="zh">機構通訊 / 季刊設計</li>
+            <li data-lang="en">Newsletter / quarterly report design</li>
+            <li data-lang="zh">年報及服務報告</li>
+            <li data-lang="en">Annual reports & service reports</li>
+            <li data-lang="zh">活動宣傳單張及海報</li>
+            <li data-lang="en">Event flyers & posters</li>
+            <li data-lang="zh">社交媒體圖文設計</li>
+            <li data-lang="en">Social media content design</li>
+            <li data-lang="zh">服務小冊子及資訊圖表</li>
+            <li data-lang="en">Service brochures & infographics</li>
+            <li data-lang="zh">品牌形象及風格指引</li>
+            <li data-lang="en">Branding & style guidelines</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title">
+        <span data-lang="zh">關於我</span>
+        <span data-lang="en">About Me</span>
+      </h2>
+      <p class="section-desc">
+        <span data-lang="zh">資深社福界專業人士，深入了解 NGO 的實際運作需要</span>
+        <span data-lang="en">An experienced social welfare professional who understands NGO operations inside and out</span>
+      </p>
+      <div class="about-content">
+        <div class="about-card">
+          <div class="about-avatar">馬</div>
+          <h3>馬韻瑜 Mary Ma</h3>
+          <p class="role">
+            <span data-lang="zh">殘疾人士綜合服務 高級經理 · 註冊社工</span>
+            <span data-lang="en">Senior Manager, Integrated Disability Services · RSW</span>
+          </p>
+          <span class="org">
+            <span data-lang="zh">基督教家庭服務中心 (CFSC)</span>
+            <span data-lang="en">Christian Family Service Centre (CFSC)</span>
+          </span>
+        </div>
+        <div class="about-details">
+          <h3 data-lang="zh">為何選擇我？</h3>
+          <h3 data-lang="en">Why Work With Me?</h3>
+          <p data-lang="zh">
+            我現職基督教家庭服務中心（CFSC）殘疾人士綜合服務 — 日間照顧及地區支援高級經理，擁有超過十五年社福界前線及管理經驗。由健康推廣主任到高級經理，我深入了解 NGO 各層面的運作需要。
+          </p>
+          <p data-lang="en">
+            Currently Senior Manager of Integrated Services for Persons with Disabilities — Day Care &amp; District Support at the Christian Family Service Centre (CFSC), I have over 15 years of frontline and management experience in the social welfare sector.
+          </p>
+          <p data-lang="zh">
+            我曾獲邀接受香港電台第一台《非常人物生活雜誌》節目訪問，分享照顧者支援服務經驗；亦曾在《香港經濟日報》撰寫專欄，並參與癌症病人照顧者手冊等跨機構協作項目。我的服務特色在於結合社福實務經驗與專業設計能力，從培訓需要分析、課程設計到刊物製作，提供一站式支援。
+          </p>
+          <p data-lang="en">
+            I have been interviewed on RTHK Radio 1's "Extraordinary People" programme on carer support services, contributed columns to the Hong Kong Economic Times, and participated in cross-sector projects such as the Cancer Carers Handbook. My strength lies in combining hands-on social work experience with professional design skills — offering one-stop support from training needs analysis to publication production.
+          </p>
+          <div class="credentials">
+            <span class="credential-tag" data-lang="zh">CFSC 高級經理</span>
+            <span class="credential-tag" data-lang="en">CFSC Senior Manager</span>
+            <span class="credential-tag" data-lang="zh">註冊社工 (RSW)</span>
+            <span class="credential-tag" data-lang="en">Registered Social Worker</span>
+            <span class="credential-tag" data-lang="zh">香港電台訪問嘉賓</span>
+            <span class="credential-tag" data-lang="en">RTHK Featured Speaker</span>
+            <span class="credential-tag" data-lang="zh">HKET 專欄作者</span>
+            <span class="credential-tag" data-lang="en">HKET Columnist</span>
+            <span class="credential-tag" data-lang="zh">培訓及刊物設計</span>
+            <span class="credential-tag" data-lang="en">Training & Publication Design</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <div class="container">
+      <h2 class="section-title">
+        <span data-lang="zh">過往項目</span>
+        <span data-lang="en">Portfolio</span>
+      </h2>
+      <p class="section-desc">
+        <span data-lang="zh">涵蓋培訓及設計範疇的精選項目</span>
+        <span data-lang="en">Selected projects across training and design</span>
+      </p>
+      <div class="portfolio-grid">
+        <div class="portfolio-item">
+          <span class="tag" data-lang="zh">媒體</span>
+          <span class="tag" data-lang="en">Media</span>
+          <h4 data-lang="zh">香港電台第一台《非常人物生活雜誌》訪問</h4>
+          <h4 data-lang="en">RTHK Radio 1 "Extraordinary People" Interview</h4>
+          <p data-lang="zh">獲邀接受香港電台訪問，介紹「照顧者快線」電話支援及流動宣傳車服務，推廣照顧者友善社區理念。</p>
+          <p data-lang="en">Featured interview on RTHK Radio 1 introducing the "Carer Express" telephone support and mobile outreach service, promoting carer-friendly communities.</p>
+        </div>
+        <div class="portfolio-item">
+          <span class="tag" data-lang="zh">專欄</span>
+          <span class="tag" data-lang="en">Column</span>
+          <h4 data-lang="zh">《香港經濟日報》專欄「新香港人」</h4>
+          <h4 data-lang="en">HKET Column — "New Hong Kongers"</h4>
+          <p data-lang="zh">於《香港經濟日報》撰寫專欄，探討企業社會責任與社區服務的關係。</p>
+          <p data-lang="en">Authored a column in the Hong Kong Economic Times discussing the relationship between corporate social responsibility and community services.</p>
+        </div>
+        <div class="portfolio-item">
+          <span class="tag" data-lang="zh">跨機構協作</span>
+          <span class="tag" data-lang="en">Collaboration</span>
+          <h4 data-lang="zh">癌症病人照顧者全面手冊</h4>
+          <h4 data-lang="en">Cancer Carers Comprehensive Handbook</h4>
+          <p data-lang="zh">參與跨機構協作項目，為癌症病人照顧者編制全面支援手冊，獲列入鳴謝名單。</p>
+          <p data-lang="en">Contributed to a cross-sector collaboration producing a comprehensive support handbook for cancer patient carers.</p>
+        </div>
+        <div class="portfolio-item">
+          <span class="tag" data-lang="zh">服務管理</span>
+          <span class="tag" data-lang="en">Management</span>
+          <h4 data-lang="zh">照顧者快線 CarerExpress</h4>
+          <h4 data-lang="en">Carer Express Service</h4>
+          <p data-lang="zh">以「L.I.N.K.」理念統籌「照顧者快線」服務，流動車走訪觀塘、黃大仙及將軍澳，配合電話快線及早識別照顧者需要。啟動禮獲社會福利署署長杜永恒先生 JP 主禮，服務至今超過 7,000 人次。</p>
+          <p data-lang="en">Led the "Carer Express" programme based on the "L.I.N.K." concept — a mobile outreach van covering Kwun Tong, Wong Tai Sin, and Tseung Kwan O with telephone support for early carer identification. Launch ceremony officiated by SWD Director. Over 7,000 service contacts to date.</p>
+        </div>
+        <div class="portfolio-item">
+          <span class="tag" data-lang="zh">研討會</span>
+          <span class="tag" data-lang="en">Conference</span>
+          <h4 data-lang="zh">「敢」動晚年自立支援照顧實踐研討會</h4>
+          <h4 data-lang="en">Empowering Self-Care in Later Life Conference</h4>
+          <p data-lang="zh">參與策劃及推動晚年自立支援照顧的實踐研討會，分享前線服務經驗。</p>
+          <p data-lang="en">Participated in organising a practice conference on empowering self-care support in later life, sharing frontline service insights.</p>
+        </div>
+        <div class="portfolio-item">
+          <span class="tag" data-lang="zh">媒體</span>
+          <span class="tag" data-lang="en">Media</span>
+          <h4 data-lang="zh">明報專訪 — 傷患者目標與社會同理心</h4>
+          <h4 data-lang="en">Ming Pao Feature — Empathy for Persons with Disabilities</h4>
+          <p data-lang="zh">接受《明報》訪問，分享觀塘東支援中心的服務經驗，探討社會對傷患者應有的同理心。（2026年1月）</p>
+          <p data-lang="en">Featured in Ming Pao discussing empathy for persons with disabilities and sharing experience from the Kwun Tong East Support Centre. (January 2026)</p>
+        </div>
+        <div class="portfolio-item">
+          <span class="tag" data-lang="zh">服務管理</span>
+          <span class="tag" data-lang="en">Management</span>
+          <h4 data-lang="zh">欣悅坊 — 地區支援中心（觀塘東）</h4>
+          <h4 data-lang="en">Cheerful Place — District Support Centre (Kwun Tong East)</h4>
+          <p data-lang="zh">管理欣悅坊 — 殘疾人士地區支援中心（觀塘東），為翠屏、寶達、秀茂坪、藍田、油塘及鯉魚門區內殘疾人士及照顧者提供一站式社區支援服務。</p>
+          <p data-lang="en">Managing Cheerful Place DSC, providing one-stop community support for persons with disabilities and their carers across Tsui Ping, Po Tat, Sau Mau Ping, Lam Tin, Yau Tong, and Lei Yue Mun.</p>
+        </div>
+        <div class="portfolio-item">
+          <span class="tag" data-lang="zh">媒體</span>
+          <span class="tag" data-lang="en">Media</span>
+          <h4 data-lang="zh">nowTV「自・療」園藝治療篇</h4>
+          <h4 data-lang="en">nowTV "Self-Healing" — Horticultural Therapy</h4>
+          <p data-lang="zh">參與 nowTV 105 海潤劇集台「自・療」園藝治療篇節目，推廣園藝治療於殘疾人士康復服務中的應用。</p>
+          <p data-lang="en">Featured on nowTV Channel 105 "Self-Healing" programme on horticultural therapy, promoting its application in rehabilitation services for persons with disabilities.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title">
+        <span data-lang="zh">聯絡我</span>
+        <span data-lang="en">Contact Me</span>
+      </h2>
+      <p class="section-desc">
+        <span data-lang="zh">歡迎查詢，免費初步諮詢</span>
+        <span data-lang="en">Get in touch — free initial consultation</span>
+      </p>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3 data-lang="zh">聯絡方式</h3>
+          <h3 data-lang="en">Get in Touch</h3>
+          <p data-lang="zh">無論您是想了解培訓服務還是設計項目，歡迎隨時聯絡我。我會在一個工作天內回覆。</p>
+          <p data-lang="en">Whether you're interested in training services or design projects, feel free to reach out. I'll respond within one business day.</p>
+          <div class="contact-item">
+            <div class="icon email-icon">✉️</div>
+            <div>
+              <div style="font-weight:500;">Email</div>
+              <a href="mailto:aushterryusa@gmail.com">aushterryusa@gmail.com</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="icon wa-icon">💬</div>
+            <div>
+              <div style="font-weight:500;">WhatsApp</div>
+              <a href="https://wa.me/85291234567" target="_blank">
+                <span data-lang="zh">點擊聯繫</span>
+                <span data-lang="en">Click to chat</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label><span data-lang="zh">機構名稱</span><span data-lang="en">Organisation Name</span></label>
+            <input type="text" name="org" required />
+          </div>
+          <div class="form-group">
+            <label><span data-lang="zh">聯絡人姓名</span><span data-lang="en">Contact Person</span></label>
+            <input type="text" name="name" required />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label><span data-lang="zh">感興趣的服務</span><span data-lang="en">Service Interested In</span></label>
+            <select name="service">
+              <option value="training" data-lang="zh">前線員工培訓</option>
+              <option value="training" data-lang="en">Frontline Staff Training</option>
+              <option value="design" data-lang="zh">刊物及宣傳設計</option>
+              <option value="design" data-lang="en">Publication & Material Design</option>
+              <option value="both" data-lang="zh">兩者皆有</option>
+              <option value="both" data-lang="en">Both Services</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label><span data-lang="zh">查詢內容</span><span data-lang="en">Message</span></label>
+            <textarea name="message" rows="4"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">
+            <span data-lang="zh">提交查詢</span>
+            <span data-lang="en">Send Enquiry</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      <span data-lang="zh">© 2026 馬韻瑜 Mary Ma. 保留一切權利。</span>
+      <span data-lang="en">© 2026 Mary Ma. All rights reserved.</span>
+    </p>
+    <p style="margin-top:8px;">
+      <a href="mailto:aushterryusa@gmail.com">aushterryusa@gmail.com</a>
+    </p>
+  </footer>
+
+  <script>
+    function toggleLang() {
+      document.body.classList.toggle('lang-en');
+    }
+    function handleSubmit(e) {
+      e.preventDefault();
+      var data = new FormData(e.target);
+      var subject = encodeURIComponent('Website Enquiry from ' + data.get('name'));
+      var body = encodeURIComponent(
+        'Organisation: ' + data.get('org') + '\n' +
+        'Name: ' + data.get('name') + '\n' +
+        'Email: ' + data.get('email') + '\n' +
+        'Service: ' + data.get('service') + '\n\n' +
+        'Message:\n' + data.get('message')
+      );
+      window.location.href = 'mailto:aushterryusa@gmail.com?subject=' + subject + '&body=' + body;
+      var isEn = document.body.classList.contains('lang-en');
+      alert(isEn ? 'Your email client will open. Thank you!' : '即將開啟電郵，感謝您的查詢！');
+    }
+    document.querySelectorAll('.nav-links a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        document.querySelector('.nav-links').classList.remove('open');
+      });
+    });
+  </script>
+
 </body>
 </html>
